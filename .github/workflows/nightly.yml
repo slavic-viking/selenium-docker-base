@@ -1,0 +1,19 @@
+name: Nightly Test
+on:
+  schedule:
+    - cron: "0 5 * * *"
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    env:
+      PROD_IMAGE: ghcr.io/slavic-viking/selenium-docker-base:edge
+      HUB_PULL_SECRET: NA 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to ghcr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
